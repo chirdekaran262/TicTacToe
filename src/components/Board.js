@@ -26,7 +26,6 @@ const Board = () => {
     };
 
     const checkTie = () => {
-        // Check if all boxes are filled and there is no winner
         return state.every(cell => cell !== null) && !checkWinner();
     };
 
@@ -34,7 +33,7 @@ const Board = () => {
     const isTie = checkTie();
 
     const handleClick = (index) => {
-        if (state[index] !== null || isWinner || isTie) return; // Prevent click if already filled or game is over
+        if (state[index] !== null || isWinner || isTie) return;
         const copyState = [...state];
         copyState[index] = isXTurn ? "X" : "O";
         setState(copyState);
@@ -42,36 +41,32 @@ const Board = () => {
     };
 
     const handleReset = () => {
-        setState(Array(9).fill(null)); // Reset the game
+        setState(Array(9).fill(null));
+        setisXTurn(true);
     };
 
     return (
         <div className="board-container">
             {isWinner ? (
                 <>
-                    <h2>{isWinner} Won the Game</h2>
-                    <button onClick={handleReset}>Play Again</button>
+                    <h2>🎉 Player {isWinner} Won!</h2>
+                    <button className="play-again-btn" onClick={handleReset}>Play Again</button>
                 </>
             ) : isTie ? (
                 <>
-                    <h2>It's a Tie!</h2>
-                    <button onClick={handleReset}>Play Again</button>
+                    <h2>🤝 It's a Tie!</h2>
+                    <button className="play-again-btn" onClick={handleReset}>Play Again</button>
                 </>
             ) : (
                 <>
-                    <div className="board-row">
+                    <p className="current-player">Current Player: <strong>{isXTurn ? "X" : "O"}</strong></p>
+                    <div className="board-grid">
                         <Square onClick={() => handleClick(0)} value={state[0]} />
                         <Square onClick={() => handleClick(1)} value={state[1]} />
                         <Square onClick={() => handleClick(2)} value={state[2]} />
-                    </div>
-
-                    <div className="board-row">
                         <Square onClick={() => handleClick(3)} value={state[3]} />
                         <Square onClick={() => handleClick(4)} value={state[4]} />
                         <Square onClick={() => handleClick(5)} value={state[5]} />
-                    </div>
-
-                    <div className="board-row">
                         <Square onClick={() => handleClick(6)} value={state[6]} />
                         <Square onClick={() => handleClick(7)} value={state[7]} />
                         <Square onClick={() => handleClick(8)} value={state[8]} />
